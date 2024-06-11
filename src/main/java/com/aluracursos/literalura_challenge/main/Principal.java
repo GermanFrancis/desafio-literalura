@@ -2,22 +2,21 @@ package com.aluracursos.literalura_challenge.main;
 
 import com.aluracursos.literalura_challenge.exception.InvalidMenuOptionException;
 import com.aluracursos.literalura_challenge.model.Datos;
+import com.aluracursos.literalura_challenge.repository.LibroRepository;
 import com.aluracursos.literalura_challenge.service.APIService;
-import com.aluracursos.literalura_challenge.util.ObjectToJson;
+import com.aluracursos.literalura_challenge.util.ConversionDatos;
+import com.aluracursos.literalura_challenge.util.LibroUtil;
 
 import java.util.Scanner;
 
 public class Principal {
 
-    public void menu() {
-        APIService apiservice = new APIService();
-        ObjectToJson objecttojson = new ObjectToJson();
+    public void menu(LibroRepository repositorio) {
         Scanner inputkeyboard = new Scanner(System.in);
-
-        var json = apiservice.getData();
-        System.out.println(json);
-        var data = objecttojson.getData(json, Datos.class);
-        System.out.println(data);
+        APIService apiservice = new APIService();
+        ConversionDatos conversor = new ConversionDatos();
+        String URL_BASE = "http://gutendex.com/books/";
+        LibroUtil util = new LibroUtil(repositorio);
 
         int opcion = 0;
         while (opcion != 7) {
@@ -37,13 +36,26 @@ public class Principal {
                         """);
                 System.out.print("-> ");
                 opcion = Integer.parseInt(inputkeyboard.nextLine());
-                if (opcion < 1 || opcion > 7) {
-                    throw new InvalidMenuOptionException("Opción no válida. Por favor selecciona una opción entre 1 y 7.");
+                switch (opcion) {
+                    case 1:
+                        util.guardarLibro();
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        System.out.println("Cerrando la aplicación...");
+                        break;
+                    default:
+                        throw new InvalidMenuOptionException("La opción [" + opcion + "] no existe");
                 }
-            }catch (NumberFormatException e) {
-                System.out.println("Opción no valida" + e.getMessage());
-            }catch (InvalidMenuOptionException i){
-                System.out.println(i.getMessage());
+            }catch (NumberFormatException | InvalidMenuOptionException i) {
+                System.out.println("Opción no válida, " + i.getMessage());
             }
         }
     }

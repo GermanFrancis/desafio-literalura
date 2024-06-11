@@ -1,6 +1,6 @@
 package com.aluracursos.literalura_challenge.util;
 
-public interface IObjectToJson {
+public interface IConversionDatos {
     //Función de datos genéricos
-    <T> T getData(String json, Class<T> clase);
+    <T> T obtenerDatos(String json, Class<T> clase);
 }
