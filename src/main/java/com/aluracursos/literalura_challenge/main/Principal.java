@@ -1,25 +1,19 @@
 package com.aluracursos.literalura_challenge.main;
-
 import com.aluracursos.literalura_challenge.exception.InvalidMenuOptionException;
-import com.aluracursos.literalura_challenge.model.Datos;
+import com.aluracursos.literalura_challenge.repository.AutorRepository;
 import com.aluracursos.literalura_challenge.repository.LibroRepository;
-import com.aluracursos.literalura_challenge.service.APIService;
-import com.aluracursos.literalura_challenge.util.ConversionDatos;
 import com.aluracursos.literalura_challenge.util.LibroUtil;
-
 import java.util.Scanner;
 
 public class Principal {
 
-    public void menu(LibroRepository repositorio) {
+    @SuppressWarnings("resource")
+    public void menu(LibroRepository libroRepository, AutorRepository autorRepository) {
         Scanner inputkeyboard = new Scanner(System.in);
-        APIService apiservice = new APIService();
-        ConversionDatos conversor = new ConversionDatos();
-        String URL_BASE = "http://gutendex.com/books/";
-        LibroUtil util = new LibroUtil(repositorio);
+        LibroUtil util = new LibroUtil(libroRepository,autorRepository);
 
         int opcion = 0;
-        while (opcion != 7) {
+        while (opcion != 6) {
             try {
                 System.out.print("""
                         _______________________________________
@@ -32,7 +26,6 @@ public class Principal {
                         |    [5] Listar autores vivos por año |
                         |    [6] Salir                        |
                         |-------------------------------------|
-                        Seleccione una opción
                         """);
                 System.out.print("-> ");
                 opcion = Integer.parseInt(inputkeyboard.nextLine());

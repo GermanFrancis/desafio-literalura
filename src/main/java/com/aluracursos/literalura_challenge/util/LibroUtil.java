@@ -1,13 +1,8 @@
 package com.aluracursos.literalura_challenge.util;
-
-import com.aluracursos.literalura_challenge.model.Datos;
-import com.aluracursos.literalura_challenge.model.DatosLibros;
-import com.aluracursos.literalura_challenge.model.Libro;
+import com.aluracursos.literalura_challenge.model.*;
+import com.aluracursos.literalura_challenge.repository.AutorRepository;
 import com.aluracursos.literalura_challenge.repository.LibroRepository;
 import com.aluracursos.literalura_challenge.service.APIService;
-import jdk.swing.interop.SwingInterOpUtils;
-import org.springframework.stereotype.Component;
-
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -15,33 +10,37 @@ public class LibroUtil {
     public final Scanner inputkeyboard = new Scanner(System.in);
     private final APIService apiservice = new APIService();
     private final ConversionDatos conversor = new ConversionDatos();
-    private final LibroRepository repositorio;
+    private final LibroRepository librorepo;
+    private final AutorRepository autorrepo;
     public String URL_BASE = "http://gutendex.com/books/";
 
-    public LibroUtil(LibroRepository repository){
-        this.repositorio = repository;
+    public LibroUtil(LibroRepository libroRepository, AutorRepository autorRepository){
+        this.autorrepo = autorRepository;
+        this.librorepo = libroRepository;
     }
 
-    public DatosLibros buscarLibroPorTitulo(){
-        System.out.println("Nombre del libro a buscar:");
+    public Datos buscarLibroPorTitulo(){
+        System.out.print("Libro a buscar: ");
         var libroBuscado = inputkeyboard.nextLine();
         try{
             var json = apiservice.obtenerDatos(URL_BASE + "?search=" + libroBuscado.replace(" ","+").toLowerCase());
-            var datosBusqueda = conversor.obtenerDatos(json, Datos.class).resultados();
-            return datosBusqueda.getFirst();
+            return conversor.obtenerDatos(json, Datos.class);
         }catch (NoSuchElementException e){
+            System.out.println("\nNo se encontró el libro [" + libroBuscado + "]");
             return null;
         }
     }
 
     public void guardarLibro(){
-        DatosLibros datos = buscarLibroPorTitulo();
-        if (datos == null) {
-            System.out.println("No se encontró el libro");
-        }else{
-            Libro libro = new Libro(datos);
-            System.out.println(libro.getTitulo());
-            repositorio.save(libro);
+        Datos datos = buscarLibroPorTitulo();
+        if (datos != null) {
+            DatosLibros datoslibro = datos.resultados().getFirst();
+            DatosAutor datosautor = datoslibro.autor().getFirst();
+            Autor autor = new Autor(datosautor);
+            Libro libro = new Libro(datoslibro,autor);
+            autorrepo.save(autor);
+            librorepo.save(libro);
+            System.out.println(libro);
         }
     }
 }

@@ -1,7 +1,4 @@
 package com.aluracursos.literalura_challenge.service;
-
-import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;

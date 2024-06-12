@@ -1,7 +1,7 @@
 package com.aluracursos.literalura_challenge;
 
 import com.aluracursos.literalura_challenge.main.Principal;
-import com.aluracursos.literalura_challenge.model.Libro;
+import com.aluracursos.literalura_challenge.repository.AutorRepository;
 import com.aluracursos.literalura_challenge.repository.LibroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -13,7 +13,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class LiteraluraChallengeApplication implements CommandLineRunner {
 
 	@Autowired
-	private LibroRepository repository;
+	private LibroRepository libroRepository;
+    @Autowired
+    private AutorRepository autorRepository;
 	public static void main(String[] args) {
 		SpringApplication.run(LiteraluraChallengeApplication.class, args);
 	}
@@ -21,6 +23,6 @@ public class LiteraluraChallengeApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		Principal principal = new Principal();
-		principal.menu(repository);
+		principal.menu(libroRepository,autorRepository);
 	}
 }
