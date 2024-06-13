@@ -74,8 +74,8 @@ public class Autor {
 
         return "---------------AUTOR---------------" + "\n" +
                 "Nombre: " + nombre + "\n" +
-                "Fecha de nacimiento: " + fechaNacimiento + "\n" +
-                "Fecha de fallecimiento: " + fechaMuerte + "\n" +
+                "Año de nacimiento: " + fechaNacimiento + "\n" +
+                "Año de fallecimiento: " + fechaMuerte + "\n" +
                 "Libros: " + builder + "\n" +
                 "----------------------------------" + "\n";
     }

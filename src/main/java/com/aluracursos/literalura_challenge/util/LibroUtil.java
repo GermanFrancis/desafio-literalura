@@ -9,6 +9,7 @@ import com.aluracursos.literalura_challenge.service.APIService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class LibroUtil {
@@ -37,12 +38,19 @@ public class LibroUtil {
         Datos datos = buscarLibroPorTitulo();
         if (!datos.resultados().isEmpty()) {
             DatosLibros datoslibro = datos.resultados().getFirst();
-            DatosAutor datosautor = datoslibro.autor().getFirst();
-            Autor autor = new Autor(datosautor);
-            Libro libro = new Libro(datoslibro,autor);
-            autorrepo.save(autor);
-            librorepo.save(libro);
-            System.out.println(libro);
+            String titulo = datoslibro.titulo();
+
+            Optional<Libro> libroExistente = librorepo.findByTitulo(titulo);
+            if (libroExistente.isPresent()) {
+                System.out.println("El libro [" + titulo + "] ya fue guardado");
+            }else{
+                DatosAutor datosautor = datoslibro.autor().getFirst();
+                Autor autor = new Autor(datosautor);
+                Libro libro = new Libro(datoslibro, autor);
+                autorrepo.save(autor);
+                librorepo.save(libro);
+                System.out.println(libro);
+            }
         }else{
             System.out.println("Libro no encontrado");
         }
@@ -72,6 +80,13 @@ public class LibroUtil {
     }
 
     public void listarAutoresVivosPorAnio() {
-
+        System.out.print("Ingrese el año: ");
+        var anio = inputkeyboard.nextLine();
+        autores = autorrepo.AutorPorAnio(anio);
+        if (autores.isEmpty()){
+            System.out.println("No se encontraron autores vivos en [" + anio + "]");
+        }else{
+            autores.forEach(System.out::println);
+        }
     }
 }
