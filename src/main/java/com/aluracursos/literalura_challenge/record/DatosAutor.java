@@ -1,6 +1,4 @@
-package com.aluracursos.literalura_challenge.model;
-
-import java.time.LocalDate;
+package com.aluracursos.literalura_challenge.record;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

@@ -1,4 +1,4 @@
-package com.aluracursos.literalura_challenge.model;
+package com.aluracursos.literalura_challenge.record;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

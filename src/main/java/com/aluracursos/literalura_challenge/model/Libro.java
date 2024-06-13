@@ -1,4 +1,5 @@
 package com.aluracursos.literalura_challenge.model;
+import com.aluracursos.literalura_challenge.record.DatosLibros;
 import jakarta.persistence.*;
 import java.util.OptionalDouble;
 

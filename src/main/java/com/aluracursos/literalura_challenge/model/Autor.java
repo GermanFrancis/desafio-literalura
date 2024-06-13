@@ -1,8 +1,8 @@
 package com.aluracursos.literalura_challenge.model;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.aluracursos.literalura_challenge.record.DatosAutor;
 import jakarta.persistence.*;
 
 @Entity
@@ -67,4 +67,16 @@ public class Autor {
         this.fechaMuerte = fechaMuerte;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        libros.forEach(libro -> builder.append(libro.getTitulo()));
+
+        return "---------------AUTOR---------------" + "\n" +
+                "Nombre: " + nombre + "\n" +
+                "Fecha de nacimiento: " + fechaNacimiento + "\n" +
+                "Fecha de fallecimiento: " + fechaMuerte + "\n" +
+                "Libros: " + builder + "\n" +
+                "----------------------------------" + "\n";
+    }
 }
